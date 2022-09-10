@@ -21,6 +21,7 @@ public class Database {
 			System.out.println("Driver OK");
 
 			connexion = DriverManager.getConnection(dburl, dbuser, dbpass);
+			connexion.setAutoCommit(false); // Gestion des transactions à la main
 
 		} catch (InstantiationException e) {
 //			e.printStackTrace();

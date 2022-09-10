@@ -1,0 +1,254 @@
+/* ===================================
+    About
+====================================== */
+
+/*
+    Theme Name: MegaOne
+    Theme URI:
+    Author: Themes Industry
+    Author URI:
+    Description: One Page Parallax Template
+    Tags: one page, multipurpose, parallax, creative, html5
+
+ */
+
+/* ===================================
+    Table of Content
+====================================== */
+
+
+/*  - Fonts
+    - General
+    - Fonts
+    - Social Icon Hover
+    - Header And Navigation
+    - Slider
+    - About
+    - Team
+    - Portfolio
+    - Price
+    - Parallax
+    - Testimonial
+    - Client
+    - Blog
+    - Contact
+    - Map
+    - Footer
+    - Loader
+    - Media Queries   */
+
+
+/* ===================================
+    LOADER
+   ====================================== */
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #ffffff;
+    z-index: 999;
+}
+
+.centrize {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    position: relative;
+}
+.full-width {
+    max-width: 100%;
+    width: 100%;
+}
+
+.vertical-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+svg {
+    width: 66vw;
+    height: 30vh;
+}
+
+/*main-logo*/
+.ha-logo path,
+.ha-logo circle {
+    fill: none;
+    stroke: #35ab39;
+    stroke-width: 0.125px;
+    stroke-linejoin: round;
+}
+.ha-logo path.house,
+.ha-logo circle.house {
+    stroke-linecap: round;
+    stroke-width: .3px;
+}
+
+.loading.ha-logo circle {
+    animation: nodes 10s linear infinite;
+}
+
+.loading.ha-logo .house {
+    animation: house 10s ease infinite;
+}
+
+.loading.ha-logo .circut {
+    animation: circut 10s cubic-bezier(0.7, 0.1, 0.1, 0.9) infinite;
+}
+
+@keyframes house {
+    0% {
+        stroke-dashoffset: -50;
+        stroke-dasharray: 50,50;
+    }
+    45% {
+        stroke-dashoffset: -100;
+    }
+    50% {
+        stroke: #35ab39;
+    }
+    60% {
+        stroke: white;
+    }
+    75% {
+        stroke: #35ab39;
+    }
+    80% {
+        stroke-dashoffset: -100;
+    }
+    100% {
+        stroke-dashoffset: -130;
+        stroke-dasharray: 50,50;
+    }
+}
+@keyframes circut {
+    0% {
+        stroke-dasharray: 20,20;
+        stroke-dashoffset: -20;
+    }
+    13% {
+        stroke-dashoffset: -20;
+    }
+    50% {
+        stroke-dashoffset: -40;
+        stroke: #35ab39;
+    }
+    60% {
+        stroke: white;
+    }
+    70% {
+        stroke: #35ab39;
+    }
+    85% {
+        stroke-dashoffset: -40;
+    }
+    100% {
+        stroke-dashoffset: -60;
+        stroke-dasharray: 20,20;
+    }
+}
+@keyframes nodes {
+    0% {
+        stroke-dasharray: 0,4;
+    }
+    25% {
+        stroke-dasharray: 0,4;
+    }
+    35% {
+        stroke-dasharray: 4,0;
+        stroke: #35ab39;
+    }
+    41% {
+        fill: none;
+    }
+    42% {
+        fill: #35ab39;
+    }
+    55% {
+        fill: none;
+        stroke: #35ab39;
+    }
+    65% {
+        fill: white;
+        stroke: white;
+    }
+    75% {
+        stroke: #35ab39;
+        fill: none;
+        stroke-dasharray: 4,0;
+    }
+    85% {
+        fill: #35ab39;
+        stroke: #35ab39;
+    }
+    93% {
+        fill: none;
+        stroke-dasharray: 4,0;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -4;
+        stroke-dasharray: 0,4;
+    }
+}
+
+.ha-logo circle:nth-child(1n) {
+    animation-delay: -0.054s;
+}
+
+.ha-logo circle:nth-child(2n) {
+    animation-delay: -0.108s;
+}
+
+.ha-logo circle:nth-child(3n) {
+    animation-delay: -0.162s;
+}
+
+.ha-logo circle:nth-child(4n) {
+    animation-delay: -0.216s;
+}
+
+.ha-logo circle:nth-child(5n) {
+    animation-delay: -0.27s;
+}
+
+.ha-logo circle:nth-child(6n) {
+    animation-delay: -0.324s;
+}
+
+.ha-logo circle:nth-child(7n) {
+    animation-delay: -0.378s;
+}
+
+.ha-logo circle:nth-child(8n) {
+    animation-delay: -0.432s;
+}
+
+.ha-logo circle:nth-child(9n) {
+    animation-delay: -0.486s;
+}
+
+.ha-logo circle:nth-child(10n) {
+    animation-delay: -0.54s;
+}
+
+.ha-logo circle:nth-child(11n) {
+    animation-delay: -0.594s;
+}
+
+.ha-logo circle:nth-child(12n) {
+    animation-delay: -0.648s;
+}
+
+.ha-logo circle:nth-child(13n) {
+    animation-delay: -0.702s;
+}
+
+.ha-logo circle:nth-child(14n) {
+    animation-delay: -0.756s;
+}
