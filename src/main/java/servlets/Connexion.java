@@ -56,20 +56,17 @@ public class Connexion extends HttpServlet {
 			// Récupérer les paramètres du Header (POST)
 			String mail = request.getParameter("mail");
 			String password = request.getParameter("password");
-			// System.out.println( mail + " " + password );
 
 			// TEST DE SÉCURITÉ
 			try {
 				ClientsTerraDao ctDao = new ClientsTerraDao();
-				ClientsTerraBean ctBean;
-				ctBean = ctDao.passwordVerification(mail, password);
-
+				ClientsTerraBean ctBean = ctDao.isLoginCorrect(mail, password);
 				session.setAttribute("messageConnexion", msg);
 
-				if (ctBean != null) {
+				if ( ctBean != null ) {
 					
 					session.setAttribute("isConnected", true);
-					session.setAttribute("messageConnexion", "Vers un autre serveur ou je reste ici ?");
+					session.setAttribute("messageConnexion", "Vers un autre serveur ou je code l’app ici ?");
 					session.setAttribute("userTerra", ctBean);
 					response.sendRedirect("Index#about");
 					
@@ -94,7 +91,7 @@ public class Connexion extends HttpServlet {
 			} catch (DaoException e) {
 				
 				e.printStackTrace();
-				System.out.println("Dans index.java PAGE D’INSCRIPTION :" + e.getMessage());
+				System.out.println("Dans la servlet connexion (anchor jsp about) :" + e.getMessage());
 				request.setAttribute("erreur", e.getMessage());
 				// Dans le site vitrine dire site en maintenance
 				// Dans l’app ou le back office du site vitrine dire contacter le service

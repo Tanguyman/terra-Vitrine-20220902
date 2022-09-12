@@ -81,11 +81,14 @@ public class ClientsTerraBean {
 	}
 
 	public void setNom(String nom) throws BeanException {
-		if ( !RegexValidator.nameValidator(nom) ) {
-			throw new BeanException("Votre nom de famille peut être composé de 3 noms au maximum "
-					+ "que vous pouvez séparer par un espace ou un tiret (-).<br>"
-					+ "Votre nom de famille doit commencer et terminer par une lettre "
-					+ "et ne doit pas contenir de chiffres ou de caractères spéciaux.");
+		if ( !RegexValidator.nameValidator(nom)  || nom.length() > 60 ) {
+			throw new BeanException("Votre <b>nom de famille</b> :<br>"
+					+ "- ne peut pas être vide.<br>"
+					+ "- ne peut pas dépasser 60 caractères.<br>"
+					+ "- doit commencer et se terminer par une lettre.<br>"
+					+ "- ne doit pas contenir de chiffres ou de caractères spéciaux.<br>"
+					+ "- peut être composé de 3 noms au maximum "
+					+ "que vous pouvez séparer par un espace ou un tiret (-).<br>");
 		} else {
 			this.nom = nom;
 		}
@@ -96,11 +99,14 @@ public class ClientsTerraBean {
 	}
 
 	public void setPrenom(String prenom) throws BeanException {
-		if ( !RegexValidator.nameValidator(prenom) ) {
-			throw new BeanException("Votre prénom peut être composé de 3 noms au maximum "
-					+ "que vous pouvez séparer par un espace ou un tiret (-).<br>"
-					+ "Votre prénom doit commencer et terminer par une lettre "
-					+ "et ne doit pas contenir de chiffres ou de caractères spéciaux.");
+		if ( !RegexValidator.nameValidator(prenom)  || nom.length() > 60 ) {
+			throw new BeanException("Votre <b>prénom</b> :<br>"
+					+ "- ne peut pas être vide.<br>"
+					+ "- ne peut pas dépasser 60 caractères.<br>"
+					+ "- doit commencer et se terminer par une lettre.<br>"
+					+ "- ne doit pas contenir de chiffres ou de caractères spéciaux.<br>"
+					+ "- peut être composé de 3 noms au maximum "
+					+ "que vous pouvez séparer par un espace ou un tiret (-).<br>");
 		} else {
 			this.prenom = prenom;
 		}
@@ -112,7 +118,7 @@ public class ClientsTerraBean {
 
 	public void setTel(String tel) throws BeanException {
 		if ( !RegexValidator.phoneNumberFrenchValidator(tel) ) {
-			throw new BeanException("Votre numéro de téléphone n’est pas au format français.<br>"
+			throw new BeanException("Votre <b>numéro de téléphone</b> n’est pas au format français.<br>"
 					+ "Il doit comprendre 10 chiffres et commencer par 0 "
 					+ "suivi d’un chiffre entre 1 et 9.");
 		} else {
@@ -127,7 +133,7 @@ public class ClientsTerraBean {
 
 	public void setMail(String mail) throws BeanException {
 		if ( !RegexValidator.emailValidator(mail)) {
-			throw new BeanException("Votre email n’est pas conforme.");
+			throw new BeanException("Votre <b>email</b> n’est pas au bon format.");
 		} else {
 			this.mail = mail;
 		}
@@ -137,8 +143,18 @@ public class ClientsTerraBean {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password) throws BeanException {
+		if ( !RegexValidator.passwordValidator(password)) {
+			throw new BeanException("Politique de sécurité concernant les <b>mots de passe</b> :<br>"
+					+ "- au moins un chiffre.<br>"
+					+ "- au moins une lettre minuscule.<br>"
+					+ "- au moins une lettre majuscule.<br>"
+					+ "- au moins un caractère spécial @ # $ % ^ & + = <br>"
+					+ "- minimum 8 caractères. <br>"
+					+ "- aucun espace.");
+		} else {
+			this.password = password;
+		}
 	}
 
 	public int getAbonnement() {
@@ -175,13 +191,9 @@ public class ClientsTerraBean {
 
 	@Override
 	public String toString() {
-		return "ClientsTerraBean [id=" + id + ", "
-				+ (dateEnregistrement != null ? "dateEnregistrement=" + dateEnregistrement + ", " : "")
-				+ (dateMAJ != null ? "dateMAJ=" + dateMAJ + ", " : "") + "civilite=" + civilite + ", "
-				+ (nom != null ? "nom=" + nom + ", " : "") + (prenom != null ? "prenom=" + prenom + ", " : "")
-				+ (tel != null ? "tel=" + tel + ", " : "") + (mail != null ? "mail=" + mail + ", " : "")
-				+ (password != null ? "password=" + password + ", " : "") + "abonnement=" + abonnement + ", statut="
-				+ statut + ", archiver=" + archiver + ", " + (commentaire != null ? "commentaire=" + commentaire : "")
-				+ "]";
+		return "ClientsTerraBean [id=" + id + ", dateEnregistrement=" + dateEnregistrement + ", dateMAJ=" + dateMAJ
+				+ ", civilite=" + civilite + ", nom=" + nom + ", prenom=" + prenom + ", tel=" + tel + ", mail=" + mail
+				+ ", password=" + password + ", abonnement=" + abonnement + ", statut=" + statut + ", archiver="
+				+ archiver + ", commentaire=" + commentaire + "]";
 	}
 }

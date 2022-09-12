@@ -2,9 +2,6 @@ package servlets;
 
 import java.io.IOException;
 
-import beans.BeanException;
-import beans.ClientsTerraBean;
-import beans.OffresBean;
 import dao.DaoException;
 import dao.Database;
 import dao.LivreDOrDao;
@@ -42,29 +39,34 @@ public class Index extends HttpServlet {
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		HttpSession session = request.getSession(true);
+		String names[] = session.getValueNames();
+		for ( int i = 0, n = names.length; i < n; i++ ) {
+			String key = names[i];
+			System.out.println("Session key (Header) : " + key + " -> Session value : " + session.getValue(key));
+		}
 		/*
 		 * Test instance constructeur
 		 */
-		OffresBean ob = new OffresBean();
-		try {
-			ob.setTitreAbonnement("toto");
-			System.out.println(ob.getId());
-			System.out.println(ob.getDescription());
-			System.out.println(ob.getTitreAbonnement());
-		} catch (BeanException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("bug");
-			// session.setAttribute("messageConnexion", e1);
-			e1.printStackTrace();
-		}
-		ClientsTerraBean ctb = new ClientsTerraBean();
-		try {
-			ctb.setNom("toto");
-			System.out.println(ctb.getNom());
-		} catch (BeanException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		OffresBean ob = new OffresBean();
+//		try {
+//			ob.setTitreAbonnement("toto");
+//			System.out.println(ob.getId());
+//			System.out.println(ob.getDescription());
+//			System.out.println(ob.getTitreAbonnement());
+//		} catch (BeanException e1) {
+//			// TODO Auto-generated catch block
+//			System.out.println("bug");
+//			// session.setAttribute("messageConnexion", e1);
+//			e1.printStackTrace();
+//		}
+//		ClientsTerraBean ctb = new ClientsTerraBean();
+//		try {
+//			ctb.setNom("toto");
+//			System.out.println(ctb.getNom());
+//		} catch (BeanException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		/*
 		 * Fin Test
 		 */
@@ -88,7 +90,7 @@ public class Index extends HttpServlet {
 		} catch (DaoException e) {
 
 			e.printStackTrace();
-			System.out.println("Dans index.java PAGE D’ACCUEIL :" + e.getMessage());
+			System.out.println("Dans la servlet index : " + e.getMessage());
 			request.setAttribute("erreur", e.getMessage());
 			// Dans le site vitrine dire site en maintenance
 			// Dans l’app ou le back office du site vitrine dire contacter le service
@@ -101,10 +103,18 @@ public class Index extends HttpServlet {
 		/*
 		 * Effacer les alerts
 		 */
-		if ( session.getAttribute("messageEmailIsInDatabase") != null ) {
-			session.setAttribute("messageEmailIsInDatabase", null);
+		if ( session.getAttribute("messageInscriptionValide") != null ) {
+			session.setAttribute("messageInscriptionValide", null);
 		}
-		
+		if ( session.getAttribute("messageInscriptionInvalide") != null ) {
+			session.setAttribute("messageInscriptionInvalide", null);
+		}
+		if ( session.getAttribute("messageContactValide") != null ) {
+			session.setAttribute("messageContactValide", null);
+		}
+		if ( session.getAttribute("messageContactInvalide") != null ) {
+			session.setAttribute("messageContactInvalide", null);
+		}
 	}
 
 	/**

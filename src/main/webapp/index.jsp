@@ -243,6 +243,17 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
 							<%
 							}
 							%>
+							<%
+							if (session.getAttribute("messageInscriptionInvalide") != null) {
+							%>
+								<div class="form-group">
+									<div class="alert alert-danger" role="alert">
+										<%= session.getAttribute("messageInscriptionInvalide")%>
+									</div>
+								</div>	
+							<%
+							}
+							%>
                             	<input type="hidden" name="buttonInscription">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -656,12 +667,35 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                 <h2 class="title">Contactez-nous !</h2>
                             </div>
                             <!--Contact Form-->
-                            <form class="contact-form" id="contact-form-data">
-
+                            <form class="contact-form" id="contactForm" method="post" action="Contact">
+                           	<%
+							if (session.getAttribute("messageContactValide") != null) {
+							%>
+								<div class="form-group">
+									<div class="alert alert-success text-center" role="alert">
+										<%= session.getAttribute("messageContactValide")%>
+									</div>
+								</div>	
+							<%
+							}
+							%>
+							<%
+							if (session.getAttribute("messageContactInvalide") != null) {
+							%>
+								<div class="form-group">
+									<div class="alert alert-danger" role="alert">
+										<%= session.getAttribute("messageContactInvalide")%>
+									</div>
+								</div>	
+							<%
+							}
+							%>
+                            	<input type="hidden" name="buttonContact">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                            <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            	name="civiliteContact">
                                                 <!-- <option selected>Open this select menu</option> -->
                                                 <option value="1">Monsieur</option>
                                                 <option value="2">Madame</option>
@@ -674,12 +708,14 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                     <!-- <div class="col-sm-12" id="result"></div> -->
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Nom" required="" id="nom" name="nom">
+                                            <input class="form-control" type="text" placeholder="Nom"  
+                                            	id="nomContact" name="nomContact" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Prénom" required="" id="prenom" name="prenom">
+                                            <input class="form-control" type="text" placeholder="Prénom" 
+                                            	id="prenomContact" name="prenomContact" required>
                                         </div>
                                     </div>
                                 </div>
@@ -688,27 +724,31 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                     <!-- <div class="col-sm-12" id="result"></div> -->
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Téléphone" required="" id="tel" name="tel">
+                                            <input class="form-control" type="text" placeholder="Téléphone" 
+                                            	id="telContact" name="telContact" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Email" required="" id="mailInscription" name="mail">
+                                            <input class="form-control" type="text" placeholder="Email" 
+                                            	id="mailContact" name="mailContact" required>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Subject" required="" id="your_subject" name="userSubject">
+                                    <input class="form-control" type="text" placeholder="Objet / Sujet" 
+                                    	id="objetContact" name="objetContact" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Message" id="message" name="userMessage"></textarea>
+                                    <textarea class="form-control" placeholder="Message" 
+                                    	id="messageContact" name="messageContact"></textarea>
                                 </div>
 
                                     <!--Button-->
-                                <a href="javascript:void(0);" id="submit_btn_Contact" class="btn btn-large btn-rounded btn-green d-block mt-4">
-                                <i class="fa fa-spinner fa-spin mr-2 d-none" aria-hidden="true"></i>Envoyer la demande</a>
+                                <a href="#" id="contactButton" class="btn btn-large btn-rounded btn-green d-block mt-4">
+                                	<i class="fa fa-spinner fa-spin mr-2 d-none" aria-hidden="true"></i>Envoyer la demande</a>
 
                                 </form>
 
@@ -811,6 +851,9 @@ document.getElementById("connexionButton").onclick = function() {
 }
 document.getElementById("inscriptionButton").onclick = function() {
 	document.getElementById("inscriptionForm").submit();
+}
+document.getElementById("contactButton").onclick = function() {
+	document.getElementById("contactForm").submit();
 }
 </script>
 </body>
