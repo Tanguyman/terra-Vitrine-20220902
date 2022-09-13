@@ -22,26 +22,26 @@ public class ClientsTerraBean {
 
 	public ClientsTerraBean() {
 		super();
-		// TODO Auto-generated constructor stub
+		// this(0, "", ...);
 	}
 
 	public ClientsTerraBean(int id, Date dateEnregistrement, Date dateMAJ, int civilite, String nom, String prenom,
 			String tel, String mail, String password, int abonnement, int statut, boolean archiver, String commentaire) 
 					throws BeanException {
 		super();
-		this.id = id;
-		this.dateEnregistrement = dateEnregistrement;
-		this.dateMAJ = dateMAJ;
-		this.civilite = civilite;
+		this.setId(id);
+		this.setDateEnregistrement(dateEnregistrement);
+		this.setDateMAJ(dateMAJ);
+		this.setCivilite(civilite);
 		this.setNom( nom );
 		this.setPrenom(prenom);
 		this.setTel(tel);
 		this.setMail(mail);
-		this.password = password;
-		this.abonnement = abonnement;
-		this.statut = statut;
-		this.archiver = archiver;
-		this.commentaire = commentaire;
+		this.setPassword(password);
+		this.setAbonnement(abonnement);
+		this.setStatut(statut);
+		this.setArchiver(archiver);
+		this.setCommentaire(commentaire);
 	}
 
 	public int getId() {

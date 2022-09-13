@@ -7,25 +7,25 @@ public class CoordonneesTerraBean {
 	private int id;
 	private String nom;
 	private String adresse;
-	private String telephone;
-	private String email;
-	private String logo;
+	private String tel;
+	private String mail;
+	private String logoURL;
 	private boolean archiver;
 	
 	public CoordonneesTerraBean() {
 		super();
 	}
 	
-	public CoordonneesTerraBean(int id, String nom, String adresse, String telephone, String email, String logo,
-			boolean archiver) {
+	public CoordonneesTerraBean(int id, String nom, String adresse, String tel, String mail, String logoURL,
+			boolean archiver) throws BeanException {
 		super();
-		this.id = id;
-		this.nom = nom;
-		this.adresse = adresse;
-		this.telephone = telephone;
-		this.email = email;
-		this.logo = logo;
-		this.archiver = archiver;
+		this.setId( id );
+		this.setNom( nom);
+		this.setAdresse( adresse );
+		this.setTel( tel );
+		this.setMail( mail );
+		this.setLogoURL( logoURL );
+		this.setArchiver( archiver );
 	}
 
 	public int getId() {
@@ -42,7 +42,7 @@ public class CoordonneesTerraBean {
 	
 	public void setNom(String nom) throws BeanException {
 		if ( nom.length() > 60 ) {
-			throw new BeanException("Le nom de votre entreprise ne peut pas dépasser 60 caractères.");
+			throw new BeanException("Le <b>nom</b> de votre entreprise ne peut pas dépasser 60 caractères.");
 		} else {
 			this.nom = nom;			
 		}
@@ -54,48 +54,44 @@ public class CoordonneesTerraBean {
 	
 	public void setAdresse(String adresse) throws BeanException {
 		if ( nom.length() > 255 ) {
-			throw new BeanException("L’adresse ne peut comporter plus de 255 caractères");
+			throw new BeanException("L’<b>adresse</b> ne peut comporter plus de 255 caractères");
 		} else {
 			this.adresse = adresse;
 		}
 	}
 	
-	public String getTelephone() {
-		return telephone;
+	public String getTel() {
+		return tel;
 	}
 	
-	public void setTelephone(String telephone) throws BeanException {
-		if ( telephone.length() > 10 ) {
-			throw new BeanException("Le numéro de téléphone comprend plus de 10 chiffres");
-		} else if ( telephone.length() < 10 ) {
-			throw new BeanException("Le numéro de téléphone comprend moins de 10 chiffres");
-		} else if ( !RegexValidator.phoneNumberFrenchValidator( telephone ) ) {
-			throw new BeanException("Le numéro de téléphone n’est pas au bon format.<br>"
-					+ "Il doit commencer par zéro suivi d’un chiffre entre 1 et 9<br>"
-					+ "et ne peut contenir que des chiffres ");
+	public void setTel(String tel) throws BeanException {
+		if ( !RegexValidator.phoneNumberFrenchValidator( tel ) ) {
+			throw new BeanException("Votre <b>numéro de téléphone</b> n’est pas au format français.<br>"
+					+ "Il doit comprendre 10 chiffres et commencer par 0 "
+					+ "suivi d’un chiffre entre 1 et 9.");
 		} else {
-			this.telephone = telephone;			
+			this.tel = tel;			
 		}
 	}
 	
-	public String getEmail() {
-		return email;
+	public String getMail() {
+		return mail;
 	}
 	
-	public void setEmail(String email) throws BeanException {
-		if ( !RegexValidator.emailValidator(email) ) {
-			throw new BeanException("Votre email n’est pas au bon format.");
+	public void setMail(String mail) throws BeanException {
+		if ( !RegexValidator.emailValidator(mail) ) {
+			throw new BeanException("Votre <b>email</b> n’est pas au bon format.");
 		} else {
-			this.email = email;			
+			this.mail = mail;			
 		}
 	}
 	
-	public String getLogo() {
-		return logo;
+	public String getLogoURL() {
+		return logoURL;
 	}
 	
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setLogoURL(String logoURL) {
+		this.logoURL = logoURL;
 	}
 	
 	public boolean isArchiver() {
@@ -108,7 +104,7 @@ public class CoordonneesTerraBean {
 
 	@Override
 	public String toString() {
-		return "CoordonneesTerraBean [id=" + id + ", nom=" + nom + ", adresse=" + adresse + ", telephone=" + telephone
-				+ ", email=" + email + ", logo=" + logo + ", archiver=" + archiver + "]";
+		return "CoordonneesTerraBean [id=" + id + ", nom=" + nom + ", adresse=" + adresse + ", telephone=" + tel
+				+ ", email=" + mail + ", logo=" + logoURL + ", archiver=" + archiver + "]";
 	}
 }

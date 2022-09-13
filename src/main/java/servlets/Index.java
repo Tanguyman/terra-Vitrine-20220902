@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 
+import dao.CoordonneesTerraDao;
 import dao.DaoException;
 import dao.Database;
 import dao.LivreDOrDao;
@@ -77,6 +78,7 @@ public class Index extends HttpServlet {
 		LivreDOrDao livreDOrDao = new LivreDOrDao();
 		LivreDOrLogosDao livreDOrLogosDao = new LivreDOrLogosDao();
 		OffresDao offresDao = new OffresDao();
+		CoordonneesTerraDao ctDao = new CoordonneesTerraDao();
 		
 		try {
 
@@ -85,7 +87,8 @@ public class Index extends HttpServlet {
 			request.setAttribute("logosPartenaires", livreDOrLogosDao.getAll());
 			request.setAttribute("offre1", offresDao.getOne(1));
 			request.setAttribute("offre2", offresDao.getOne(2));
-//			System.out.println( "offres : " + offresDao.getOne(1) );
+			request.setAttribute("coordonneesTerra", ctDao.getById(1));
+			// System.out.println( "coordonneesTerra : " + ctDao.getById(1) );
 
 		} catch (DaoException e) {
 

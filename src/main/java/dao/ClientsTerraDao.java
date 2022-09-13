@@ -1,8 +1,13 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import beans.BeanException;
 import beans.ClientsTerraBean;
 import tools.PasswordHash;
 
@@ -10,10 +15,16 @@ public class ClientsTerraDao {
 
 	// CREATE if !exist else UPDATE
 	public void save(ClientsTerraBean o) throws DaoException {
+		
+		Connection connexion = null;
+		PreparedStatement ps = null;
+		
 		try {
 			if (o.getId() != 0) {
 
-				PreparedStatement ps = Database.connexion
+//				Database.Connect();
+				connexion = Database.connexion;
+				ps = Database.connexion
 						.prepareStatement("UPDATE clientsTerra SET dateEnregistrement=?, dateMAJ=?, "
 								+ "civilite=?, nom=?, prenom=?, tel=?, mail=?, password=?, "
 								+ "abonnement=?, statut=?, archiver=?, commentaire=? "
@@ -35,12 +46,12 @@ public class ClientsTerraDao {
 				ps.setInt(13, o.getId());
 
 				ps.executeUpdate();
+				connexion.commit();
 
 			} else {
 				
-				System.out.println("INSCRIPTION : " + o);
-				
-				PreparedStatement ps = Database.connexion
+				connexion = Database.connexion;
+				ps = Database.connexion
 						.prepareStatement("INSERT INTO clientsTerra "
 								+ "(dateEnregistrement, dateMAJ,"
 								+ "civilite, nom, prenom, tel, mail, password,"
@@ -65,14 +76,28 @@ public class ClientsTerraDao {
 				ps.setString(12, o.getCommentaire());
 
 				ps.executeUpdate();
+				connexion.commit();
 			}
 
 			System.out.println("SAVED OK");
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch ( SQLException e ) {
+			e.printStackTrace();
 			System.out.println("SAVED NO");
-			throw new DaoException("Impossible de communiquer avec la base de données.");
+			try {
+				if ( connexion != null ) {
+					connexion.rollback(); // Annuler la transaction
+				}
+			} catch ( SQLException e2 ) {
+				e2.printStackTrace();
+			}
+			throw new DaoException("Impossible de communiquer avec la base de données.");	
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -99,9 +124,12 @@ public class ClientsTerraDao {
 			} else {
 				return null;
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException("Impossible de communiquer avec la base de données.");
+		} catch (BeanException e) {
+			e.printStackTrace();
+			throw new DaoException("Les données de la base sont invalides.");
 		}
 	}
 
@@ -149,10 +177,20 @@ public class ClientsTerraDao {
 				return null;
 			}
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException("Impossible de communiquer avec la base de données.");
+		} catch (BeanException e) {
+			e.printStackTrace();
+			throw new DaoException("Les données de la base sont invalides.");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DaoException("Problème d’algo sur le mdp.");
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DaoException("Problème avec le mdp.");
 		}
 	}
 }

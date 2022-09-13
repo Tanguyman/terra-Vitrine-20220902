@@ -42,16 +42,16 @@ public class LivreDOrDao {
 			System.out.println("SAVED OK");
 
 		} catch ( SQLException e ) {
-			// ex.printStackTrace();
+			e.printStackTrace();
 			System.out.println("SAVED NO");
 			try {
 				if ( connexion != null ) {
 					connexion.rollback(); // Annuler la transaction
 				}
 			} catch ( SQLException e2 ) {
+				e2.printStackTrace();
 			}
-			throw new DaoException("Impossible de communiquer avec la base de données.");
-			
+			throw new DaoException("Impossible de communiquer avec la base de données.");	
 		} finally {
 			try {
 				if ( connexion != null ) {

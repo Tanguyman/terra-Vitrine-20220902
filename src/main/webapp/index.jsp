@@ -18,9 +18,9 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
 	<!-- Meta Tags -->
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-	<title>Terra</title>
+	<title>${ coordonneesTerra.nom }</title>
 	<!-- Favicon -->
-    <link href="personal/img/Terra-Logo_1.png" rel="icon">
+    <link href="${ coordonneesTerra.logoURL }" rel="icon">
     <!-- Bundle -->
     <link href="vendor/css/bundle.min.css" rel="stylesheet">
     <!-- Plugin Css -->
@@ -78,7 +78,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
 
     <!--Logo-->
     <a class="logo" href="#home">
-        <img src="personal/img/Terra-Logo_1.png" alt="logo">
+        <img src="${ coordonneesTerra.logoURL }" alt="logo">
     </a>
     
     <!--Hamburger-->
@@ -690,6 +690,8 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
 							<%
 							}
 							%>
+								<!-- AJAX  -->
+								<div id="ajaxMessage" class="form-group"></div>
                             	<input type="hidden" name="buttonContact">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -759,7 +761,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                        <i class="lni-apartment" style="color: #35ab39;"></i>
                                        <div class="content">
                                            <h6 class="m-0" style="color: #35ab39;">Adresse</h6>
-                                           <p>4 square Leon Blum 92800 Puteaux France.</p>
+                                           <p>${ coordonneesTerra.adresse }.</p>
                                        </div>
                                    </li>
                                     <!--item-->
@@ -767,7 +769,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                         <i class="lni-comment-reply" style="color: #35ab39;"></i>
                                         <div class="content">
                                            <h6 class="m-0" style="color: #35ab39;">Email:</h6>
-                                           <p><a href="mailto:seb.castells@terra.fr">seb.castells@terra.fr</a></p>
+                                           <p><a href="mailto:${ coordonneesTerra.mail }">${ coordonneesTerra.mail }</a></p>
                                        </div>
                                     </li>
                                     <!--item-->
@@ -775,7 +777,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                         <i class="lni-phone-handset" style="color: #35ab39;"></i>
                                         <div class="content">
                                            <h6 class="m-0" style="color: #35ab39;">Téléphone :</h6>
-                                           <p><a href="tel:0123456789">01 23 45 67 89</a></p>
+                                           <p><a href="tel:${ coordonneesTerra.tel }">${ coordonneesTerra.tel }</a></p>
                                        </div>
                                     </li>
 
@@ -846,15 +848,65 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
     });
 </script>
 <script type="text/javascript">
-document.getElementById("connexionButton").onclick = function() {
-	document.getElementById("connexionForm").submit();
-}
-document.getElementById("inscriptionButton").onclick = function() {
-	document.getElementById("inscriptionForm").submit();
-}
-document.getElementById("contactButton").onclick = function() {
-	document.getElementById("contactForm").submit();
-}
+	document.getElementById("connexionButton").onclick = function() {
+		document.getElementById("connexionForm").submit();
+	}
+	document.getElementById("inscriptionButton").onclick = function() {
+		document.getElementById("inscriptionForm").submit();
+	}
+	document.getElementById("contactButton").onclick = function() {
+		document.getElementById("contactForm").submit();
+	}
+</script>
+<!-- AJAX -->
+<script type="text/javascript">
+	
+   	/* $(document).ready( function( event ) { */
+   		
+   		// EN JS
+    	/* var xhr = new XMLHttpRequest();
+    	xhr.onload = function() {
+    		var message = JSON.parse( this.responseText );
+			console.log( message ); */ /* this.responseText */
+			/* document.getElementById( "ajaxMessage" ).innerHTML = message.corps;
+		}
+   		
+    	xhr.open( "get", "rest/contact/get/6", true );
+    	xhr.send(); */
+    	
+    	// EN JQuerry
+    	/* $.ajax( {
+    		url : "rest/contact/get/6?ts=" + new Date().getTime(), */ /* éviter le cache grâce à une URL unique */
+    		/* dataType: "json",
+    		success: function( message ) {
+    			$("#ajaxMessage").text( message.corps + " !!!");
+    		}
+    	} );
+   	}); */
+   	
+	// EN JQuerry
+	/* var idMessage = 0;
+   	
+   	function loadMessage() {
+    	$.ajax( {
+    		url : "rest/contact/get/" + idMessage + "?ts=" + new Date().getTime(), // éviter le cache grâce à une URL unique
+    		dataType: "json",
+    		success: function( contact ) {
+		    	console.log( contact );
+    			$("#ajaxMessage").text('<div class="alert alert-success" role="alert">' 
+    					+ contact.nom + " souhaite des infos sur " + contact.objet + "</div>");
+    		}
+    	} );
+	}
+   	
+   	$(document).ready( function( event ) {   		
+   		$("#contactButton").click( function( event ) {   			
+   			if ( ++idMessage > 4 ) idMessage = 1;
+   			
+	   		console.log( idMessage );
+		   	loadMessage();
+   		} );
+   	} ); */
 </script>
 </body>
 </html>
