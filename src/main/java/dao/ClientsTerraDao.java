@@ -15,10 +15,10 @@ public class ClientsTerraDao {
 
 	// CREATE if !exist else UPDATE
 	public void save(ClientsTerraBean o) throws DaoException {
-		
+
 		Connection connexion = null;
 		PreparedStatement ps = null;
-		
+
 		try {
 			if (o.getId() != 0) {
 
@@ -37,7 +37,9 @@ public class ClientsTerraDao {
 				ps.setString(5, o.getPrenom());
 				ps.setString(6, o.getTel());
 				ps.setString(7, o.getMail());
-				ps.setString(8, o.getPassword());
+				String pHash = PasswordHash.generatePassword(o.getPassword());
+				System.out.println(pHash);
+				ps.setString(8, pHash);
 				ps.setInt(9, o.getAbonnement());
 				ps.setInt(10, o.getStatut());
 				ps.setBoolean(11, o.isArchiver());
@@ -49,7 +51,7 @@ public class ClientsTerraDao {
 				connexion.commit();
 
 			} else {
-				
+
 				connexion = Database.connexion;
 				ps = Database.connexion
 						.prepareStatement("INSERT INTO clientsTerra "
@@ -67,8 +69,8 @@ public class ClientsTerraDao {
 				ps.setString(5, o.getPrenom());
 				ps.setString(6, o.getTel());
 				ps.setString(7, o.getMail());
-				String pHash = PasswordHash.generatePassword( o.getPassword() );
-				System.out.println( pHash );
+				String pHash = PasswordHash.generatePassword(o.getPassword());
+				System.out.println(pHash);
 				ps.setString(8, pHash);
 				ps.setInt(9, o.getAbonnement());
 				ps.setInt(10, o.getStatut());
@@ -81,17 +83,17 @@ public class ClientsTerraDao {
 
 			System.out.println("SAVED OK");
 
-		} catch ( SQLException e ) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("SAVED NO");
 			try {
-				if ( connexion != null ) {
+				if (connexion != null) {
 					connexion.rollback(); // Annuler la transaction
 				}
-			} catch ( SQLException e2 ) {
+			} catch (SQLException e2) {
 				e2.printStackTrace();
 			}
-			throw new DaoException("Impossible de communiquer avec la base de données.");	
+			throw new DaoException("Impossible de communiquer avec la base de données.");
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,28 +135,30 @@ public class ClientsTerraDao {
 		}
 	}
 
-	// PASSWORD VERIFICATION
+	// READ : PASSWORD VERIFICATION
 	public ClientsTerraBean isLoginCorrect(String mail, String password) throws DaoException {
 		try {
 
 			PreparedStatement ps = Database.connexion
 					.prepareStatement("SELECT * FROM clientsTerra WHERE mail=?"); // AND password=?
 			ps.setString(1, mail);
-			// ps.setString(2, passwordStored);
+			// ps.setString(2, passwordStored); // on ne peut pas le comparer !!!
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				
+
 				ClientsTerraBean o = new ClientsTerraBean();
-				
-				System.out.println("password param : " + password);
+
 				String passwordStored = rs.getString("password");
-				String gp = PasswordHash.generatePassword(password);
-				System.out.println( "pGenerated from arg : " + gp );
-				System.out.println( "pStored : " + passwordStored );
 				boolean isPc = PasswordHash.isPasswordCorrect(password, passwordStored);
-				System.out.println("is p Correct : " + isPc );
-				if ( isPc ) {
+
+				// System.out.println("password du formulaire : " + password);
+				// System.out.println( "password hashé avec le password du formulaire : "
+				// + PasswordHash.generatePassword(password) );
+				// System.out.println( "password stocké en BDD : " + passwordStored );
+				// System.out.println("is p Correct : " + isPc );
+
+				if (isPc) {
 					o.setId(rs.getInt("id"));
 					o.setDateEnregistrement(rs.getDate("dateEnregistrement"));
 					o.setDateMAJ(rs.getDate("dateMAJ"));
@@ -163,13 +167,13 @@ public class ClientsTerraDao {
 					o.setPrenom(rs.getString("prenom"));
 					o.setTel(rs.getString("tel"));
 					o.setMail(rs.getString("mail"));
-					o.setPassword( passwordStored );
+					o.setPassword(password);
 					o.setAbonnement(rs.getInt("abonnement"));
 					o.setStatut(rs.getInt("statut"));
 					o.setArchiver(rs.getBoolean("archiver"));
 					o.setCommentaire(rs.getString("commentaire"));
-					
-					return o;					
+
+					return o;
 				} else {
 					return null;
 				}
@@ -191,6 +195,56 @@ public class ClientsTerraDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new DaoException("Problème avec le mdp.");
+		}
+	}
+
+	// READ : IS MAIL IN DATABASE
+	public Boolean isMailInDatabase(String mail) throws DaoException {
+		try {
+			PreparedStatement ps = Database.connexion
+					.prepareStatement("SELECT * FROM clientsTerra WHERE mail=?");
+			ps.setString(1, mail);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException("Impossible de communiquer avec la base de données.");
+		}
+	}
+
+	// UPDATE : block account
+	public void blockAccount(String mail) throws DaoException {
+
+		Connection connexion = null;
+		PreparedStatement ps = null;
+
+		try {
+			connexion = Database.connexion;
+
+			ps = Database.connexion.prepareStatement("UPDATE `clientsTerra` SET `statut`=1 "
+					+ "WHERE `mail`=?");
+			ps.setString(1, mail);
+
+			ps.executeUpdate();
+			connexion.commit();
+			System.out.println("SAVED OK");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SAVED NO");
+			try {
+				if (connexion != null) {
+					connexion.rollback();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			throw new DaoException("Impossible de communiquer avec la base de données.");
 		}
 	}
 }

@@ -62,17 +62,15 @@ public class Inscription extends HttpServlet {
 				 * V2
 				 */
 				ClientsTerraDao user = new ClientsTerraDao();
-				ClientsTerraBean isEmailInDatabase;
-				isEmailInDatabase = user.getByMail(mail);
 				boolean arePasswordsEquals = password.equals(passwordConfirmation);
 				
 				if ((!civilite.equals("1") && !civilite.equals("2"))
-						|| (!abonnement.equals("1") && !abonnement.equals("2"))) {
+						|| (!abonnement.equals("10") && !abonnement.equals("20"))) {
 					
 					session.setAttribute("messageInscriptionInvalide", "Me créer une table hacker ?");
 					response.sendRedirect("Index#about");
 
-				} else if (isEmailInDatabase != null) {
+				} else if (user.isMailInDatabase(mail)) {
 
 					session.setAttribute("messageInscriptionInvalide", "Cette email existe déjà...");
 					response.sendRedirect("Index#about");
@@ -97,7 +95,7 @@ public class Inscription extends HttpServlet {
 					ctBean.setAbonnement( Integer.parseInt(abonnement) );
 					ctBean.setStatut( 0 );
 					ctBean.setArchiver( false );
-					ctBean.setCommentaire( "commentaire" );
+//					ctBean.setCommentaire( "commentaire" );
 					
 					
 					ClientsTerraDao ctd = new ClientsTerraDao();

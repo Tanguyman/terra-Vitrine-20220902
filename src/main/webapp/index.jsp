@@ -145,7 +145,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
         <div class="subpages">
 
             <!-- Home -->
-            <section id="home" class="pt-page pt-page-1" data-id="home" style="background-color: white;">
+            <section id="home" class="pt-page pt-page-1" data-id="home" style="background-color: white; overflow: scroll">
                 <div class="portfolio-section ui-block-05" style="margin: auto;">
                     <div class="container" style="padding-bottom: 50px;">
                         <div class="row no-gutters">
@@ -219,10 +219,10 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
             </section>
 
             <!-- Connexion / Inscription - About -->
-            <section id="about" class="pt-page pt-page-2" data-id="about">
+            <section id="about" class="pt-page pt-page-2" data-id="about" style="overflow: scroll">
                 <div class="container">
                     <div class="row align-items-lg-center">
-                        <h1 class="title" style="color: #35ab39; padding-bottom: 100px;">Premier mois offert. Faites un essai !</h1>
+                        <h1 class="title" style="color: #35ab39; margin-top: 25px; margin-bottom: 50px;">Premier mois offert. Faites un essai !</h1>
 
                         <!--Inscription area-->
                         <div class="col-lg-6 pr-lg-5" style="box-shadow: 1px 1px 15px #e1e1e1; border-radius: 10px; padding: 45px; right: 40px;">
@@ -404,8 +404,8 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
                                             <select class="form-select form-select-sm" aria-label=".form-select-sm example"
                                             	name="abonnement">
                                                 <!-- <option selected>Open this select menu</option> -->
-                                                <option value="1">Abonnement mensuel (20€)</option>
-                                                <option value="2">Abonnement annuel (200€)</option>
+                                                <option value="10">Abonnement mensuel (20€)</option>
+                                                <option value="20">Abonnement annuel (200€)</option>
                                             </select>
                                         </div>
                                     </div>
@@ -461,7 +461,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
             </section>
 
             <!-- Fonctionnalités - Services -->
-            <section id="services" class="pt-page pt-page-3  lastest-blog" data-id="services"  style="background-color: white;">
+            <section id="services" class="pt-page pt-page-3  lastest-blog" data-id="services"  style="background-color: white; overflow: scroll">
                 <!-- <svg class="separator__svg" id="blog-header-svg" width="100%" height="200" viewBox="0 0 100 100" preserveAspectRatio="none" fill="#fff" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <path d="M 100 100 V 10 L 0 100"/>
                     <path d="M 30 73 L 100 18 V 10 Z" fill="#fff" stroke-width="0"/>
@@ -509,7 +509,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
             </section>
 
             <!-- Tarifs - Portfolio -->
-            <section id="portfolio" class="pt-page pt-page-4" data-id="portfolio" >
+            <section id="portfolio" class="pt-page pt-page-4" data-id="portfolio" style="overflow: scroll">
                 <div class="pricing-sec ui-block-05" style="margin: auto;">
                     <div class="container">
                         <div class="row">
@@ -569,7 +569,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
             </section>
 
             <!-- Livre d’or / Témoignages - Clients -->
-            <section id="clients" class="pt-page pt-page-5" data-id="clients">
+            <section id="clients" class="pt-page pt-page-5" data-id="clients" style="overflow: scroll">
                 <div class="container">
                         <div class="row d-flex align-content-lg-center min-height-100vh">
 
@@ -655,7 +655,7 @@ OffresBean offre2 = (OffresBean) request.getAttribute("offre2");
             </section>
 
             <!-- Contacts -->
-            <section id="contact" class="pt-page pt-page-6" data-id="contact">
+            <section id="contact" class="pt-page pt-page-6" data-id="contact" style="overflow: scroll">
                 <div class="container">
                     <div class="row align-items-lg-center">
                         <div class="col-lg-3">

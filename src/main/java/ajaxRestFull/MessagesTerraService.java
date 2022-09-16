@@ -14,7 +14,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path( "/contact")
+/*
+ * TUTO :
+ * - Vidéo & Slider : https://koor.fr/DevWeb/Javascript/jQuery.wp
+ * - Un autre Slider : https://koor.fr/Java/SupportJAXRS/slide1.wp
+ * http://localhost:8080/terra-Vitrine-20220902/rest/contact/get/1 ou getAll
+ */
+@Path( "/contact" )
 public class MessagesTerraService {
 
 	@GET

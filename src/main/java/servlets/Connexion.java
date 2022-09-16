@@ -63,35 +63,77 @@ public class Connexion extends HttpServlet {
 				ClientsTerraBean ctBean = ctDao.isLoginCorrect(mail, password);
 				session.setAttribute("messageConnexion", msg);
 
-				if ( ctBean != null ) {
-					
-					session.setAttribute("isConnected", true);
-					session.setAttribute("messageConnexion", "Vers un autre serveur ou je code l’app ici ?");
-					session.setAttribute("userTerra", ctBean);
-					response.sendRedirect("Index#about");
-					
-				} else {
-					
-					if (session.getAttribute("messageConnexion").equals("")) {
+				if (ctBean != null) {
+
+					if (ctBean.getAbonnement() == 11 || ctBean.getAbonnement() == 21) {
+
 						response.sendRedirect("Index?param=test#about");
+
+						msg = "Votre compte est bloqué pour impayé.</br>"
+								+ "Veuillez nous contacter.";
+						session.setAttribute("messageConnexion", msg);
+
+					} else if (ctBean.getStatut() == 1) {
+
+						response.sendRedirect("Index#about");
+
+						msg = "Une personne a tenter de se connecter "
+								+ "plusieurs fois à votre compte. Afin de sécuriser vos données, "
+								+ "nous avons bloqué votre compte temporairement. Si vous n’avez pas "
+								+ "reçu le mail de réactivation alors cliquez ci-dessous svp.</br></br>"
+								+ "<button>Recevoir le mail de réactivation</button>";
+						session.setAttribute("messageConnexion", msg);
+
+					} else if (ctBean.isArchiver()) {
+
+						response.sendRedirect("Index#about");
+
+						msg = "Heureux de vous revoir mais vous n’êtes plus client chez nous.";
+						session.setAttribute("messageConnexion", msg);
+
+					} else {
+						session.setAttribute("isConnected", true);
+						session.setAttribute("messageConnexion", "Vers un autre serveur ou je code l’app ici ?");
+						session.setAttribute("userTerra", ctBean);
+						response.sendRedirect("Index#about");
+					}
+
+				} else {
+
+					if (session.getAttribute("messageConnexion").equals("")) {
+
+						response.sendRedirect("Index?param=test#about");
+
 						msg = "Première tentative sur trois";
 						session.setAttribute("messageConnexion", msg);
+
 					} else if (session.getAttribute("messageConnexion").equals("Première tentative sur trois")) {
+
 						response.sendRedirect("Index#about");
+
 						msg = "Attention, plus qu'une tentative pour vous connecter";
 						session.setAttribute("messageConnexion", msg);
+
 					} else if (session.getAttribute("messageConnexion")
 							.equals("Attention, plus qu'une tentative pour vous connecter")) {
+
 						response.sendRedirect("Index#about");
-						msg = "Le système vous a bloqué, veuillez contacter l’administrateur.";
+
+						msg = "Afin de protéger vos données, votre compte est bloqué.</br>"
+								+ "Vous avez reçu un mail de réactivation.</br>"
+								+ "Sinon, veuillez contacter l’administrateur.";
 						session.setAttribute("messageConnexion", msg);
+
+						if (ctDao.isMailInDatabase(mail)) {
+							ctDao.blockAccount(mail);
+						}
 					}
 				}
-				
+
 			} catch (DaoException e) {
-				
+
 				e.printStackTrace();
-				System.out.println("Dans la servlet connexion (anchor jsp about) :" + e.getMessage());
+				System.out.println("Dans la servlet connexion (anchor jsp about) : " + e.getMessage());
 				request.setAttribute("erreur", e.getMessage());
 				// Dans le site vitrine dire site en maintenance
 				// Dans l’app ou le back office du site vitrine dire contacter le service
